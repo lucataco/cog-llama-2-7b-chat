@@ -35,8 +35,8 @@ class Predictor(BasePredictor):
         system_prompt: str = Input(description="System prompt that helps guide system behavior", default="You are a helpful, respectful and honest assistant. Always answer as helpfully as possible, while being safe.  Your answers should not include any harmful, unethical, racist, sexist, toxic, dangerous, or illegal content. Please ensure that your responses are socially unbiased and positive in nature. If a question does not make any sense, or is not factually coherent, explain why instead of answering something not correct. If you don't know the answer to a question, please don't share false information."),
         max_new_tokens: int = Input(description="Number of new tokens", ge=1, le=4096 , default=512),
         temperature: float = Input(description="Randomness of outputs, 0 is deterministic, greater than 1 is random", ge=0, le=5, default=0.75),
-        # top_p: float = Input(description="When decoding text, samples from the top p percentage of most likely tokens; lower to ignore less likely tokens", ge=0.01, le=1, default=0.95),
-        # repetition_penalty: float = Input(description="Penalty for repeated words in generated text; 1 is no penalty, values greater than 1 discourage repetition, less than 1 encourage it", ge=0, le=5, default=1.1),
+        top_p: float = Input(description="When decoding text, samples from the top p percentage of most likely tokens; lower to ignore less likely tokens", ge=0.01, le=1, default=0.95),
+        repetition_penalty: float = Input(description="Penalty for repeated words in generated text; 1 is no penalty, values greater than 1 discourage repetition, less than 1 encourage it", ge=0, le=5, default=1.1),
     ) -> str:
         """Run a single prediction on the model"""
         prompt_template=f'''[INST] <<SYS>>
@@ -45,7 +45,7 @@ class Predictor(BasePredictor):
         {prompt}[/INST]'''
 
         input_ids = self.tokenizer(prompt_template, return_tensors='pt').input_ids.cuda()
-        outputs = self.model.generate(inputs=input_ids, temperature=temperature, max_new_tokens=max_new_tokens)
+        outputs = self.model.generate(inputs=input_ids, temperature=temperature, top_p=top_p, repetition_penalty=repetition_penalty, max_new_tokens=max_new_tokens)
         output = self.tokenizer.decode(outputs[0])
         parts = output.split("[/INST]", 1)
         final = parts[1]

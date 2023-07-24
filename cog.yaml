@@ -5,7 +5,7 @@ build:
   python_version: "3.10"
   python_packages:
     - "torch==2.0.0"
-    # - "transformers==4.31.0"
+    - "transformers==4.31.0"
     - "accelerate==0.21.0"
     - "safetensors==0.3.1"
     - "auto_gptq"
@@ -15,7 +15,7 @@ build:
     - "datasets"
 
   run:
-    - pip install git+https://github.com/huggingface/transformers
+    # - pip install git+https://github.com/huggingface/transformers
     - pip install xformers
 
 # predict.py defines how predictions are run on your model
