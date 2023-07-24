@@ -1,0 +1,4 @@
+__pycache__
+.cog
+cache/
+Llama-2-7b-Chat-GPTQ/

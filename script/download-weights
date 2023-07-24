@@ -1,0 +1,30 @@
+#!/usr/bin/env python
+
+import os
+import sys
+from transformers import AutoTokenizer
+from auto_gptq import AutoGPTQForCausalLM
+
+# append project directory to path so predict.py can be imported
+sys.path.append('.')
+
+from predict import MODEL_NAME, MODEL_BASENAME, MODEL_CACHE
+use_triton = True
+
+tokenizer = AutoTokenizer.from_pretrained(
+    MODEL_NAME,
+    use_fast=True,
+    cache_dir=MODEL_CACHE,
+)
+
+# model = AutoGPTQForCausalLM.from_quantized(
+#     MODEL_NAME,
+#     model_basename=MODEL_BASENAME,
+#     use_safetensors=True,
+#     trust_remote_code=True,
+#     device="cuda:0",
+#     use_triton=use_triton,
+#     quantize_config=None,
+# )
+# model.save_quantized("cache-gptq", use_safetensors=True)
+os.system("git clone --branch main https://huggingface.co/TheBloke/Llama-2-7b-Chat-GPTQ")
