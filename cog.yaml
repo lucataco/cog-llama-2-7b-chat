@@ -8,11 +8,7 @@ build:
     - "transformers==4.31.0"
     - "accelerate==0.21.0"
     - "safetensors==0.3.1"
-    - "auto_gptq"
-    - "peft"
-    - "numpy"
-    - "rouge"
-    - "datasets"
+    - "auto_gptq==0.3.0"
 
   run:
     # - pip install git+https://github.com/huggingface/transformers
